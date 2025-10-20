@@ -1,0 +1,2 @@
+Create a Scrap paper inventory system with a gui. the inventory system keeps tracks of boxes. within certain boxes there are scrap materials of different kind. different dimensions. different use tutorials. different brand. and so on. the gui must support adding an item with associeted pictures and data. marking an item as used . also adding in bulk. viewing items. searching items by name. by brand by size filters
+a project can contain pics as well as materials used . 
