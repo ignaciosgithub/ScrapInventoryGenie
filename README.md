@@ -38,9 +38,23 @@ A comprehensive inventory management system for tracking scrap materials, boxes,
 
 ## Installation
 
+### Windows Users - Quick Start
+
+**Option 1: Build Your Own Executable (Recommended)**
+
+1. Download this repository (click "Code" → "Download ZIP")
+2. Extract the ZIP file
+3. Double-click `build_windows.bat` to automatically build the executable
+4. Find the executable in the `dist` folder
+5. Run `ScrapInventoryGenie.exe`
+
+See [WINDOWS_SETUP.md](WINDOWS_SETUP.md) for detailed instructions.
+
+**Option 2: Run from Source**
+
 ### Prerequisites
-- Python 3.7 or higher
-- Windows OS (designed for Windows)
+- Python 3.7 or higher ([Download Python](https://www.python.org/downloads/))
+- Windows OS (designed for Windows, but works on Linux/Mac)
 
 ### Setup Instructions
 
@@ -58,6 +72,8 @@ pip install -r requirements.txt
 ```bash
 python main.py
 ```
+
+For detailed Windows setup instructions, see [WINDOWS_SETUP.md](WINDOWS_SETUP.md).
 
 ## Usage
 
