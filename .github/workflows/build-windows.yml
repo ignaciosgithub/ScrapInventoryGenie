@@ -1,0 +1,62 @@
+name: Build Windows Portable Installer
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller
+        
+    - name: Build executable
+      run: |
+        pyinstaller --clean --onefile --windowed --name ScrapInventoryGenie main.py
+        
+    - name: Create portable package
+      run: |
+        mkdir ScrapInventoryGenie-Portable
+        copy dist\ScrapInventoryGenie.exe ScrapInventoryGenie-Portable\
+        copy README.md ScrapInventoryGenie-Portable\
+        copy WINDOWS_SETUP.md ScrapInventoryGenie-Portable\
+        echo. > ScrapInventoryGenie-Portable\FIRST_RUN.txt
+        echo Welcome to Scrap Inventory Genie! > ScrapInventoryGenie-Portable\FIRST_RUN.txt
+        echo. >> ScrapInventoryGenie-Portable\FIRST_RUN.txt
+        echo Double-click ScrapInventoryGenie.exe to start the application. >> ScrapInventoryGenie-Portable\FIRST_RUN.txt
+        echo The database and images folder will be created automatically. >> ScrapInventoryGenie-Portable\FIRST_RUN.txt
+        
+    - name: Create ZIP archive
+      run: |
+        powershell Compress-Archive -Path ScrapInventoryGenie-Portable -DestinationPath ScrapInventoryGenie-Windows-Portable.zip
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ScrapInventoryGenie-Windows-Portable
+        path: ScrapInventoryGenie-Windows-Portable.zip
+        
+    - name: Upload to release
+      if: github.event_name == 'release'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./ScrapInventoryGenie-Windows-Portable.zip
+        asset_name: ScrapInventoryGenie-Windows-Portable.zip
+        asset_content_type: application/zip
